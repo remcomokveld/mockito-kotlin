@@ -41,15 +41,19 @@ import kotlin.reflect.KClass
 fun after(millis: Long) = Mockito.after(millis)
 
 /** Matches any object, excluding nulls. */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("any", "com.nhaarman.mockitokotlin2.any"))
 inline fun <reified T : Any> any() = Mockito.any(T::class.java) ?: createInstance<T>()
 
 /** Matches anything, including nulls. */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("anyOrNull", "com.nhaarman.mockitokotlin2.anyOrNull"))
 inline fun <reified T : Any> anyOrNull(): T = Mockito.any<T>() ?: createInstance<T>()
 
 /** Matches any vararg object, including nulls. */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("anyVararg", "com.nhaarman.mockitokotlin2.anyVararg"))
 inline fun <reified T : Any> anyVararg(): T = Mockito.any<T>() ?: createInstance<T>()
 
 /** Matches any array of type T. */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("anyArray", "com.nhaarman.mockitokotlin2.anyArray"))
 inline fun <reified T : Any?> anyArray(): Array<T> = Mockito.any(Array<T>::class.java) ?: arrayOf()
 
 /**
@@ -58,6 +62,7 @@ inline fun <reified T : Any?> anyArray(): Array<T> = Mockito.any(Array<T>::class
  *
  * @param predicate An extension function on [T] that returns `true` when a [T] matches the predicate.
  */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("argThat", "com.nhaarman.mockitokotlin2.argThat"))
 inline fun <reified T : Any> argThat(noinline predicate: T.() -> Boolean) = Mockito.argThat<T?> { arg -> arg?.predicate() ?: false } ?: createInstance(T::class)
 
 /**
@@ -66,6 +71,7 @@ inline fun <reified T : Any> argThat(noinline predicate: T.() -> Boolean) = Mock
  *
  * @param predicate An extension function on [T] that returns `true` when a [T] matches the predicate.
  */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("argForWhich", "com.nhaarman.mockitokotlin2.argForWhich"))
 inline fun <reified T : Any> argForWhich(noinline predicate: T.() -> Boolean) = argThat(predicate)
 
 /**
@@ -74,6 +80,7 @@ inline fun <reified T : Any> argForWhich(noinline predicate: T.() -> Boolean) = 
  *
  * @param predicate A function that returns `true` when given [T] matches the predicate.
  */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("argWhere", "com.nhaarman.mockitokotlin2.argWhere"))
 inline fun <reified T : Any> argWhere(noinline predicate: (T) -> Boolean) = argThat(predicate)
 
 /**
@@ -84,6 +91,7 @@ inline fun <reified T : Any> argWhere(noinline predicate: (T) -> Boolean) = argT
  *
  * @param predicate A function that performs actions to verify an argument [T].
  */
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("check", "com.nhaarman.mockitokotlin2.check"))
 inline fun <reified T : Any> check(noinline predicate: (T) -> Unit) = Mockito.argThat<T?> { arg ->
     if (arg == null) error("""The argument passed to the predicate was null.
 
@@ -94,28 +102,49 @@ If you are using `check` as part of a stubbing, use `argThat` or `argForWhich` i
     true
 } ?: createInstance(T::class)
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("atLeast", "com.nhaarman.mockitokotlin2.atLeast"))
 fun atLeast(numInvocations: Int): VerificationMode = Mockito.atLeast(numInvocations)!!
+
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("atLeastOnce", "com.nhaarman.mockitokotlin2.atLeastOnce"))
 fun atLeastOnce(): VerificationMode = Mockito.atLeastOnce()!!
+
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("atMost", "com.nhaarman.mockitokotlin2.atMost"))
 fun atMost(maxNumberOfInvocations: Int): VerificationMode = Mockito.atMost(maxNumberOfInvocations)!!
+
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("calls", "com.nhaarman.mockitokotlin2.calls"))
 fun calls(wantedNumberOfInvocations: Int): VerificationMode = Mockito.calls(wantedNumberOfInvocations)!!
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("clearInvocations", "com.nhaarman.mockitokotlin2.clearInvocations"))
 fun <T> clearInvocations(vararg mocks: T) = Mockito.clearInvocations(*mocks)
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("description", "com.nhaarman.mockitokotlin2.description"))
 fun description(description: String): VerificationMode = Mockito.description(description)
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("doAnswer", "com.nhaarman.mockitokotlin2.doAnswer"))
 fun <T> doAnswer(answer: (InvocationOnMock) -> T?): Stubber = Mockito.doAnswer { answer(it) }!!
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("doCallRealMethod", "com.nhaarman.mockitokotlin2.doCallRealMethod"))
 fun doCallRealMethod(): Stubber = Mockito.doCallRealMethod()!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("doNothing", "com.nhaarman.mockitokotlin2.doNothing"))
 fun doNothing(): Stubber = Mockito.doNothing()!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("doReturn", "com.nhaarman.mockitokotlin2.doReturn"))
 fun doReturn(value: Any?): Stubber = Mockito.doReturn(value)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("doReturn", "com.nhaarman.mockitokotlin2.doReturn"))
 fun doReturn(toBeReturned: Any?, vararg toBeReturnedNext: Any?): Stubber = Mockito.doReturn(toBeReturned, *toBeReturnedNext)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("doThrow", "com.nhaarman.mockitokotlin2.doThrow"))
 fun doThrow(toBeThrown: KClass<out Throwable>): Stubber = Mockito.doThrow(toBeThrown.java)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("doThrow", "com.nhaarman.mockitokotlin2.doThrow"))
 fun doThrow(vararg toBeThrown: Throwable): Stubber = Mockito.doThrow(*toBeThrown)!!
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("eq", "com.nhaarman.mockitokotlin2.eq"))
 fun <T> eq(value: T): T = Mockito.eq(value) ?: value
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("ignoreStubs", "com.nhaarman.mockitokotlin2.ignoreStubs"))
 fun ignoreStubs(vararg mocks: Any): Array<out Any> = Mockito.ignoreStubs(*mocks)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("inOrder", "com.nhaarman.mockitokotlin2.inOrder"))
 fun inOrder(vararg mocks: Any): InOrder = Mockito.inOrder(*mocks)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("inOrder", "com.nhaarman.mockitokotlin2.inOrder"))
 fun inOrder(vararg mocks: Any, evaluation: InOrder.() -> Unit) = Mockito.inOrder(*mocks).evaluation()
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("inOrder", "com.nhaarman.mockitokotlin2.inOrder"))
 inline fun <T> T.inOrder(block: InOrderOnType<T>.() -> Any) {
     block.invoke(InOrderOnType(this))
 }
@@ -124,10 +153,14 @@ class InOrderOnType<T>(private val t: T) : InOrder by inOrder(t as Any) {
     fun verify() : T = verify(t)
 }
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("isA", "com.nhaarman.mockitokotlin2.isA"))
 inline fun <reified T : Any> isA(): T = Mockito.isA(T::class.java) ?: createInstance<T>()
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("isNotNull", "com.nhaarman.mockitokotlin2.isNotNull"))
 fun <T : Any> isNotNull(): T? = Mockito.isNotNull()
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("isNull", "com.nhaarman.mockitokotlin2.isNull"))
 fun <T : Any> isNull(): T? = Mockito.isNull()
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("mock", "com.nhaarman.mockitokotlin2.mock"))
 inline fun <reified T : Any> mock(
       extraInterfaces: Array<KClass<out Any>>? = null,
       name: String? = null,
@@ -154,6 +187,7 @@ inline fun <reified T : Any> mock(
       outerInstance = outerInstance
 ))!!
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("mock", "com.nhaarman.mockitokotlin2.mock"))
 inline fun <reified T : Any> mock(
       extraInterfaces: Array<KClass<out Any>>? = null,
       name: String? = null,
@@ -183,6 +217,7 @@ inline fun <reified T : Any> mock(
     KStubbing(this).stubbing(this)
 }!!
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("anyOrNull", "com.nhaarman.mockitokotlin2.stub"))
 inline fun <T : Any> T.stub(stubbing: KStubbing<T>.(T) -> Unit) = this.apply { KStubbing(this).stubbing(this) }
 
 @Deprecated("Use mock() with optional arguments instead.", ReplaceWith("mock<T>(defaultAnswer = a)"), level = WARNING)
@@ -236,30 +271,47 @@ fun <T> OngoingStubbing<T>.doThrow(t: KClass<out Throwable>, vararg ts: KClass<o
 
 infix fun <T> OngoingStubbing<T>.doAnswer(answer: (InvocationOnMock) -> T?): OngoingStubbing<T> = thenAnswer(answer)
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("mockingDetails", "com.nhaarman.mockitokotlin2.mockingDetails"))
 fun mockingDetails(toInspect: Any): MockingDetails = Mockito.mockingDetails(toInspect)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("never", "com.nhaarman.mockitokotlin2.never"))
 fun never(): VerificationMode = Mockito.never()!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("notNull", "com.nhaarman.mockitokotlin2.notNull"))
 fun <T : Any> notNull(): T? = Mockito.notNull()
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("only", "com.nhaarman.mockitokotlin2.only"))
 fun only(): VerificationMode = Mockito.only()!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("refEq", "com.nhaarman.mockitokotlin2.refEq"))
 fun <T> refEq(value: T, vararg excludeFields: String): T? = Mockito.refEq(value, *excludeFields)
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("reset", "com.nhaarman.mockitokotlin2.reset"))
 fun <T> reset(vararg mocks: T) = Mockito.reset(*mocks)
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("same", "com.nhaarman.mockitokotlin2.same"))
 fun <T> same(value: T): T = Mockito.same(value) ?: value
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("spy", "com.nhaarman.mockitokotlin2.spy"))
 inline fun <reified T : Any> spy(): T = Mockito.spy(T::class.java)!!
 fun <T> spy(value: T): T = Mockito.spy(value)!!
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("timeout", "com.nhaarman.mockitokotlin2.timeout"))
 fun timeout(millis: Long): VerificationWithTimeout = Mockito.timeout(millis)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("times", "com.nhaarman.mockitokotlin2.times"))
 fun times(numInvocations: Int): VerificationMode = Mockito.times(numInvocations)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("validateMockitoUsage", "com.nhaarman.mockitokotlin2.validateMockitoUsage"))
 fun validateMockitoUsage() = Mockito.validateMockitoUsage()
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("verify", "com.nhaarman.mockitokotlin2.verify"))
 fun <T> verify(mock: T): T = Mockito.verify(mock)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("verify", "com.nhaarman.mockitokotlin2.verify"))
 fun <T> verify(mock: T, mode: VerificationMode): T = Mockito.verify(mock, mode)!!
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("verifyNoMoreInteractions", "com.nhaarman.mockitokotlin2.verifyNoMoreInteractions"))
 fun <T> verifyNoMoreInteractions(vararg mocks: T) = Mockito.verifyNoMoreInteractions(*mocks)
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("verifyZeroInteractions", "com.nhaarman.mockitokotlin2.verifyZeroInteractions"))
 fun verifyZeroInteractions(vararg mocks: Any) = Mockito.verifyZeroInteractions(*mocks)
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("whenever", "com.nhaarman.mockitokotlin2.whenever"))
 fun <T> whenever(methodCall: T): OngoingStubbing<T> = Mockito.`when`(methodCall)!!
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("withSettings", "com.nhaarman.mockitokotlin2.withSettings"))
 fun withSettings(
       extraInterfaces: Array<KClass<out Any>>? = null,
       name: String? = null,

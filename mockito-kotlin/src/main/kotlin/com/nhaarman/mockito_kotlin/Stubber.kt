@@ -27,4 +27,5 @@ package com.nhaarman.mockito_kotlin
 
 import org.mockito.stubbing.Stubber
 
+@Deprecated("V2 Migration", replaceWith = ReplaceWith("whenever", "com.nhaarman.mockitokotlin2.whenever"))
 fun <T> Stubber.whenever(mock: T) = `when`(mock)
